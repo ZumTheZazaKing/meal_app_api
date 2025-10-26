@@ -74,7 +74,8 @@ class AuthController extends Controller
             'user' => $user,
             'access_token' => $token,
             'token_type' => 'Bearer',
-        ]);
+            'status' => 200
+        ],200);
     }
 
     public function user(Request $request)
@@ -85,6 +86,6 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         $request->user()->currentAccessToken()->delete();
-        return response()->json(['message' => 'Successfully logged out']);
+        return response()->json(['message' => 'Successfully logged out','status'=>200]);
     }
 }
