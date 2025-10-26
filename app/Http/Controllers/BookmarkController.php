@@ -12,7 +12,7 @@ class BookmarkController extends Controller
      */
     public function index(Request $request)
     {
-        return $request->user()->bookmarks();
+        return $request->user()->bookmarks;
     }
 
     /**
