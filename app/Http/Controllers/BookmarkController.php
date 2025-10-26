@@ -30,7 +30,10 @@ class BookmarkController extends Controller
     {
         Bookmark::create([
             'user_id' => $request->user()->id,
-            'meal_id' => $request->meal_id
+            'meal_id' => $request->meal_id,
+            "strMealThumb" => $request->img_src,
+            "strMeal" => $request->name,
+            "strCategory" => $request->category
         ]);
 
         return response()->json(['status'=>200,'message'=>'Bookmark saved']);

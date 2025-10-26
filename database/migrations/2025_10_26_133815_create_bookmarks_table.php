@@ -15,6 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->string("meal_id");
+            $table->string("strCategory");
+            $table->string("strMeal");
+            $table->longText("strMealThumb");
             $table->timestamps();
         });
     }
