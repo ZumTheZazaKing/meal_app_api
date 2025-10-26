@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('bookmarks', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->string("meal_id");
+            $table->string("idMeal");
             $table->string("strCategory");
             $table->string("strMeal");
             $table->longText("strMealThumb");
