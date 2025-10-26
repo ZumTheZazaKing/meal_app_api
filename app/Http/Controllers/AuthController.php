@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -9,12 +10,44 @@ use Validator;
 
 class AuthController extends Controller
 {
+    public function register(Request $request)
+    {
+         $validator = Validator::make($request->all(),[
+            'username' => 'required|unique:users,username|min:6|max:20',
+            'password' => 'required',
+            'confirm' => 'required|same:password'
+        ]);
+
+        if($validator->fails()){
+            return response()->json([
+                'status' => 400,
+                'messages' => $validator->errors()
+            ]);
+        }
+
+        $credentials = [
+            'username'=>$request->username,
+            'password'=>$request->password
+        ];
+        
+        $user = User::create($credentials);
+
+        Auth::attempt($credentials);
+        $token = $user->createToken('auth_token')->plainTextToken;
+
+        return response()->json([
+            'user' => $user,
+            'access_token' => $token,
+            'token_type' => 'Bearer',
+        ]);
+
+    }
+
     public function login(Request $request)
     {
         $validator = Validator::make($request->all(),[
             'username' => 'required|min:6|max:20',
             'password' => 'required',
-            'confirm' => 'required|same:password'
         ]);
 
         if($validator->fails()){
