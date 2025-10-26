@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bookmark;
 use Illuminate\Http\Request;
 
 class BookmarkController extends Controller
@@ -9,9 +10,9 @@ class BookmarkController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        return $request->user()->bookmarks();
     }
 
     /**
@@ -27,7 +28,12 @@ class BookmarkController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Bookmark::create([
+            'user_id' => $request->user()->id,
+            'meal_id' => $request->meal_id
+        ]);
+
+        return response()->json(['status'=>200,'message'=>'Bookmark saved']);
     }
 
     /**
@@ -57,8 +63,9 @@ class BookmarkController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Bookmark $bookmark)
     {
-        //
+        $bookmark->delete();
+        return response()->json(['status'=>200,'message'=>'Bookmark removed']);
     }
 }
